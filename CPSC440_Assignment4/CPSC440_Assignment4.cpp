@@ -9,6 +9,8 @@
 #include "mappy_A5.h"
 #include <stdio.h>
 
+int collided(int x, int y);
+
 int main() {
 	const int WIDTH = 900;
 	const int HEIGHT = 900;
@@ -165,4 +167,10 @@ int main() {
 	al_destroy_display(display);
 
 	return 0;
+}
+
+int collided(int x, int y) {
+	BLKSTR *blockdata;
+	blockdata = MapGetBlock(x / mapblockwidth, y / mapblockheight);
+	return blockdata->tl;
 }

@@ -12,8 +12,8 @@ Sprite::~Sprite() {
 }
 
 void Sprite::InitSprites() {
-	x = 192;
-	y = 64;
+	x = 176;
+	y = 0;
 
 	maxFrame = 14;
 	curFrame = 5;
@@ -23,7 +23,7 @@ void Sprite::InitSprites() {
 	frameHeight = 48;
 	animationColumns = 5;
 	direction = 1;
-	speed = 3;
+	speed = 15;
 
 	image = al_load_bitmap("SpriteSheet.png");
 	al_convert_mask_to_alpha(image, al_map_rgb(255, 0, 255));
@@ -112,6 +112,18 @@ void Sprite::UpdateSprites(int dir) {
 		else if (direction == 2 || direction == 3) {
 			curFrame = 0;
 		}
+	}
+
+	//Collision Detection
+	if (collided(x, y) || collided(x + frameWidth, y + frameHeight)) {
+		x = oldx;
+		y = oldy;
+	}
+
+	//Map Edge Collision
+	if (x < 0 || y < 0 || x > 2560 - frameWidth || y > 2560 - frameHeight) {
+		x = oldx;
+		y = oldy;
 	}
 
 }

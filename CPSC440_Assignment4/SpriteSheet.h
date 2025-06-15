@@ -4,6 +4,8 @@
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
 
+int collided(int x, int y);
+
 class Sprite {
 	public:
 		Sprite();
