@@ -45,6 +45,9 @@ int main() {
 	int xOff = 0;
 	int yOff = 0;
 	char mapName[12] = "Maze1.FMP";
+	if (MapLoad(mapName, 1)) {
+		return -5;
+	}
 
 	eventQueue = al_create_event_queue();
 	timer = al_create_timer(1.0 / 60);
@@ -54,6 +57,15 @@ int main() {
 	al_register_event_source(eventQueue, al_get_display_event_source(display));
 
 	al_start_timer(timer);
+
+	//draw the background tiles
+	MapDrawBG(xOff, yOff, 0, 0, WIDTH - 1, HEIGHT - 1);
+
+	//draw foreground tiles
+	MapDrawFG(xOff, yOff, 0, 0, WIDTH - 1, HEIGHT - 1, 0);
+
+	al_flip_display();
+	al_clear_to_color(al_map_rgb(0, 0, 0));
 
 	while (!exit) {
 
