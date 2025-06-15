@@ -190,8 +190,8 @@ int main() {
 			while (currTime - startTime < 5) {
 				currTime = time(NULL);
 			}
-			//exit = true;
-			//render = false;
+			exit = true;
+			render = false;
 		}
 
 		if (render && al_is_event_queue_empty(eventQueue)) {

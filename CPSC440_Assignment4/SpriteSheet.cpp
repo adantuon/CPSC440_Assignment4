@@ -23,7 +23,7 @@ void Sprite::InitSprites() {
 	frameHeight = 48;
 	animationColumns = 5;
 	direction = 1;
-	speed = 16;
+	speed = 8;
 
 	image = al_load_bitmap("SpriteSheet.png");
 	al_convert_mask_to_alpha(image, al_map_rgb(255, 0, 255));
