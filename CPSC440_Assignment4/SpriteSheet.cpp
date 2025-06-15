@@ -114,18 +114,17 @@ void Sprite::UpdateSprites(int dir) {
 		}
 	}
 
-	//Collision Detection
-	if (collided(x, y) || collided(x + frameWidth, y + frameHeight)) {
-		x = oldx;
-		y = oldy;
-	}
-
 	//Map Edge Collision
 	if (x < 0 || y < 0 || x > 2560 - frameWidth || y > 2560 - frameHeight) {
 		x = oldx;
 		y = oldy;
 	}
 
+	//Collision Detection
+	if (collided(x, y) || collided(x + frameWidth, y + frameHeight)) {
+		x = oldx;
+		y = oldy;
+	}
 }
 
 void Sprite::DrawSprites(int xoffset, int yoffset) {
