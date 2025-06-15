@@ -7,7 +7,6 @@
 #include <allegro5/allegro_ttf.h>
 #include "SpriteSheet.h"
 #include "mappy_A5.h"
-#include <stdio.h>
 
 int collided(int x, int y);
 
@@ -142,12 +141,15 @@ int main() {
 			}
 		}
 
+
+		//If the player has reached the end of the current maze
 		if (exited) {
 			exited = false;
 
 			mazeNum++;
 			mazeTimer = 3600;
 
+			//If more mazes to complete
 			if (mazeNum < 3) {
 				player.setX(176);
 				player.setY(0);
@@ -158,6 +160,7 @@ int main() {
 					return -5;
 				}
 			}
+			//If finished all mazes
 			else {
 				al_draw_textf(font, al_map_rgb(255, 255, 255), WIDTH / 2, HEIGHT / 2 - 100, ALLEGRO_ALIGN_CENTER, "Congratulations");
 				al_draw_textf(font, al_map_rgb(255, 255, 255), WIDTH / 2, HEIGHT / 2, ALLEGRO_ALIGN_CENTER, "You Escaped the");
@@ -176,6 +179,7 @@ int main() {
 			}
 		}
 
+		//If ran out of time
 		if (mazeTimer == 0) {
 			al_draw_textf(font, al_map_rgb(255, 255, 255), WIDTH / 2, HEIGHT / 2 - 150, ALLEGRO_ALIGN_CENTER, "Game Over");
 			al_draw_textf(font, al_map_rgb(255, 255, 255), WIDTH / 2, HEIGHT / 2 - 50, ALLEGRO_ALIGN_CENTER, "You Failed");
