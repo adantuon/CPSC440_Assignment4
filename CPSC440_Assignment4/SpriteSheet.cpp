@@ -23,7 +23,7 @@ void Sprite::InitSprites() {
 	frameHeight = 48;
 	animationColumns = 5;
 	direction = 1;
-	speed = 15;
+	speed = 16;
 
 	image = al_load_bitmap("SpriteSheet.png");
 	al_convert_mask_to_alpha(image, al_map_rgb(255, 0, 255));
@@ -117,19 +117,19 @@ bool Sprite::UpdateSprites(int dir) {
 
 	//Map Edge Collision
 	//Top edge has no exits
-	if (y < 0) {
+	if (y <= 0) {
 		x = oldx;
 		y = oldy;
 	}
 	//potential exit edges
-	else if (x < 0 || x > 2560 - frameWidth || y > 2560 - frameHeight) {
+	else if (x <= 0 || x >= 2560 - frameWidth || y >= 2560 - frameHeight) {
 		x = oldx;
 		y = oldy;
 		exited = true;
 	}
 
 	//Collision Detection
-	if (collided(x, y) || collided(x + frameWidth, y + frameHeight)) {
+	if (collided(x, y) || collided(x + frameWidth, y + frameHeight) || collided(x + frameWidth, y) || collided (x, y + frameHeight)) {
 		x = oldx;
 		y = oldy;
 	}

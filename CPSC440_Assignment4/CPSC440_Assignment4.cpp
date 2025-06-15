@@ -143,9 +143,11 @@ int main() {
 		}
 
 		if (exited) {
+			exited = false;
+
 			mazeNum++;
 			mazeTimer = 3600;
-			
+
 			if (mazeNum < 3) {
 				player.setX(176);
 				player.setY(0);
@@ -188,8 +190,8 @@ int main() {
 			while (currTime - startTime < 5) {
 				currTime = time(NULL);
 			}
-			exit = true;
-			render = false;
+			//exit = true;
+			//render = false;
 		}
 
 		if (render && al_is_event_queue_empty(eventQueue)) {
