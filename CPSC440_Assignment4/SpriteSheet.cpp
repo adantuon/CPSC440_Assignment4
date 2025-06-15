@@ -29,8 +29,9 @@ void Sprite::InitSprites() {
 	al_convert_mask_to_alpha(image, al_map_rgb(255, 0, 255));
 }
 
-void Sprite::UpdateSprites(int dir) {
-
+bool Sprite::UpdateSprites(int dir) {
+	
+	bool exited = false;
 	int oldx = x;
 	int oldy = y;
 
@@ -115,9 +116,16 @@ void Sprite::UpdateSprites(int dir) {
 	}
 
 	//Map Edge Collision
-	if (x < 0 || y < 0 || x > 2560 - frameWidth || y > 2560 - frameHeight) {
+	//Top edge has no exits
+	if (y < 0) {
 		x = oldx;
 		y = oldy;
+	}
+	//potential exit edges
+	else if (x < 0 || x > 2560 - frameWidth || y > 2560 - frameHeight) {
+		x = oldx;
+		y = oldy;
+		exited = true;
 	}
 
 	//Collision Detection
@@ -125,6 +133,8 @@ void Sprite::UpdateSprites(int dir) {
 		x = oldx;
 		y = oldy;
 	}
+
+	return exited;
 }
 
 void Sprite::DrawSprites(int xoffset, int yoffset) {

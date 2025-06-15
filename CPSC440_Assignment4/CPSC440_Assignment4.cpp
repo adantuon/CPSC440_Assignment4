@@ -15,6 +15,8 @@ int main() {
 	const int WIDTH = 900;
 	const int HEIGHT = 900;
 	bool keys[] = { false, false, false, false };
+	bool exited = false;
+	int mazeNum = 0;
 	enum KEYS{UP, DOWN, LEFT, RIGHT};
 
 	bool exit = false;
@@ -49,7 +51,7 @@ int main() {
 
 	int xOff = 0;
 	int yOff = 0;
-	char mapName[12] = "Maze1.FMP";
+	char mapName[12] = "Maze0.FMP";
 	if (MapLoad(mapName, 1)) {
 		return -5;
 	}
@@ -81,19 +83,19 @@ int main() {
 		if (event.type == ALLEGRO_EVENT_TIMER) {
 			render = true;
 			if (keys[UP]) {
-				player.UpdateSprites(UP);
+				exited = player.UpdateSprites(UP);
 			}
 			else if (keys[DOWN]) {
-				player.UpdateSprites(DOWN);
+				exited = player.UpdateSprites(DOWN);
 			}
 			else if (keys[LEFT]) {
-				player.UpdateSprites(LEFT);
+				exited = player.UpdateSprites(LEFT);
 			}
 			else if (keys[RIGHT]) {
-				player.UpdateSprites(RIGHT);
+				exited = player.UpdateSprites(RIGHT);
 			}
 			else {
-				player.UpdateSprites(-1);
+				exited = player.UpdateSprites(-1);
 			}
 		}
 		else if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
@@ -138,6 +140,36 @@ int main() {
 			}
 		}
 
+		if (exited) {
+			mazeNum++;
+			
+			if (mazeNum < 3) {
+				player.setX(176);
+				player.setY(0);
+
+				sprintf_s(mapName, "Maze%i.FMP", mazeNum);
+
+				if (MapLoad(mapName, 1)) {
+					return -5;
+				}
+			}
+			else {
+				al_draw_textf(font, al_map_rgb(255, 255, 255), WIDTH / 2, HEIGHT / 2 - 100, ALLEGRO_ALIGN_CENTER, "Congratulations");
+				al_draw_textf(font, al_map_rgb(255, 255, 255), WIDTH / 2, HEIGHT / 2, ALLEGRO_ALIGN_CENTER, "You Escaped the");
+				al_draw_textf(font, al_map_rgb(255, 255, 255), WIDTH / 2, HEIGHT / 2 + 100, ALLEGRO_ALIGN_CENTER, "Hedge Mazes!");
+
+				al_flip_display();
+
+				//Freeze game for 5 seconds and then exit
+				time_t startTime = time(NULL);
+				time_t currTime = time(NULL);
+				while (currTime - startTime < 5) {
+					currTime = time(NULL);
+				}
+				exit = true;
+			}
+		}
+
 		if (render && al_is_event_queue_empty(eventQueue)) {
 			render = false;
 
@@ -163,6 +195,7 @@ int main() {
 		}
 	}
 
+	MapFreeMem();
 	al_destroy_event_queue(eventQueue);
 	al_destroy_display(display);
 

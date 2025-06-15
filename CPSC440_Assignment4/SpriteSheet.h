@@ -11,10 +11,12 @@ class Sprite {
 		Sprite();
 		~Sprite();
 		void InitSprites();
-		void UpdateSprites(int dir); //dir 0 = UP, 1 = DOWN, 2 = LEFT, 3 = RIGHT
+		bool UpdateSprites(int dir); //dir 0 = UP, 1 = DOWN, 2 = LEFT, 3 = RIGHT
 		void DrawSprites(int xoffset, int yoffset);
 		float getX() { return x; }
+		void setX(int inX) { x = inX; }
 		float getY() { return y; }
+		void setY(int inY) { y = inY; }
 		int getWidth() { return frameWidth; }
 		int getHeight() { return frameHeight; }
 
