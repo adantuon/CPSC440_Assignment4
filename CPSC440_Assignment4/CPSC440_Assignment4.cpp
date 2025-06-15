@@ -46,6 +46,7 @@ int main() {
 	al_init_ttf_addon();
 
 	ALLEGRO_FONT *font = al_load_font("PressStart2P.ttf", 48, 0);
+	ALLEGRO_FONT *smallFont = al_load_font("PressStart2P.ttf", 16, 0);
 
 	player.InitSprites();
 
@@ -64,6 +65,7 @@ int main() {
 	al_register_event_source(eventQueue, al_get_display_event_source(display));
 
 	al_start_timer(timer);
+	int mazeTimer = 3600;
 
 	//draw the background tiles
 	MapDrawBG(xOff, yOff, 0, 0, WIDTH - 1, HEIGHT - 1);
@@ -142,6 +144,7 @@ int main() {
 
 		if (exited) {
 			mazeNum++;
+			mazeTimer = 3600;
 			
 			if (mazeNum < 3) {
 				player.setX(176);
@@ -167,7 +170,26 @@ int main() {
 					currTime = time(NULL);
 				}
 				exit = true;
+				render = false;
 			}
+		}
+
+		if (mazeTimer == 0) {
+			al_draw_textf(font, al_map_rgb(255, 255, 255), WIDTH / 2, HEIGHT / 2 - 150, ALLEGRO_ALIGN_CENTER, "Game Over");
+			al_draw_textf(font, al_map_rgb(255, 255, 255), WIDTH / 2, HEIGHT / 2 - 50, ALLEGRO_ALIGN_CENTER, "You Failed");
+			al_draw_textf(font, al_map_rgb(255, 255, 255), WIDTH / 2, HEIGHT / 2 + 50, ALLEGRO_ALIGN_CENTER, "to Escape the");
+			al_draw_textf(font, al_map_rgb(255, 255, 255), WIDTH / 2, HEIGHT / 2 + 150, ALLEGRO_ALIGN_CENTER, "Hedge Mazes!");
+
+			al_flip_display();
+
+			//Freeze game for 5 seconds and then exit
+			time_t startTime = time(NULL);
+			time_t currTime = time(NULL);
+			while (currTime - startTime < 5) {
+				currTime = time(NULL);
+			}
+			exit = true;
+			render = false;
 		}
 
 		if (render && al_is_event_queue_empty(eventQueue)) {
@@ -190,9 +212,12 @@ int main() {
 			MapDrawFG(xOff, yOff, 0, 0, WIDTH, HEIGHT, 0);
 			player.DrawSprites(xOff, yOff);
 
+			al_draw_textf(smallFont, al_map_rgb(255, 255, 255), 10, HEIGHT - 20, ALLEGRO_ALIGN_LEFT, "Time Left: %.1f", mazeTimer / 60.0);
+
 			al_flip_display();
 			al_clear_to_color(al_map_rgb(0, 0, 0));
 		}
+		mazeTimer--;
 	}
 
 	MapFreeMem();
