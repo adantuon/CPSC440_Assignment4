@@ -5,6 +5,7 @@
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
+#include "SpriteSheet.h"
 #include "mappy_A5.h"
 
 int main() {
@@ -15,8 +16,7 @@ int main() {
 
 	bool exit = false;
 	bool render = false;
-
-
+	Sprite player;
 
 	ALLEGRO_DISPLAY *display = NULL;
 	ALLEGRO_EVENT_QUEUE *eventQueue = NULL;
@@ -42,6 +42,8 @@ int main() {
 
 	ALLEGRO_FONT *font = al_load_font("PressStart2P.ttf", 48, 0);
 
+	player.InitSprites();
+
 	int xOff = 0;
 	int yOff = 0;
 	char mapName[12] = "Maze1.FMP";
@@ -63,6 +65,7 @@ int main() {
 
 	//draw foreground tiles
 	MapDrawFG(xOff, yOff, 0, 0, WIDTH - 1, HEIGHT - 1, 0);
+	player.DrawSprites(0, 0);
 
 	al_flip_display();
 	al_clear_to_color(al_map_rgb(0, 0, 0));
