@@ -42,6 +42,10 @@ int main() {
 
 	ALLEGRO_FONT *font = al_load_font("PressStart2P.ttf", 48, 0);
 
+	int xOff = 0;
+	int yOff = 0;
+	char mapName[12] = "Maze1.FMP";
+
 	eventQueue = al_create_event_queue();
 	timer = al_create_timer(1.0 / 60);
 
