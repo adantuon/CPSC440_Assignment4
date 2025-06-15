@@ -1,6 +1,7 @@
 //Aiden D'Antuono
 
 #include "SpriteSheet.h"
+#include <stdio.h>
 
 Sprite::Sprite() {
 	image = NULL;
@@ -35,19 +36,82 @@ void Sprite::UpdateSprites(int dir) {
 
 	//Movement Up
 	if (dir == 0) {
+		if (direction != 0) {
+			direction = 0;
+			curFrame = 11;
+		}
+
+		if (++frameCount > frameDelay)
+		{
+			frameCount = 0;
+			if (++curFrame > 14)
+				curFrame = 11;
+		}
+
 		y -= speed;
 	}
 	//Movement Down
 	else if (dir == 1) {
+		if (direction != 1) {
+			direction = 1;
+			curFrame = 6;
+		}
+
+		if (++frameCount > frameDelay)
+		{
+			frameCount = 0;
+			if (++curFrame > 9)
+				curFrame = 6;
+		}
+
 		y += speed;
 	}
 	//Movement Left
 	else if (dir == 2) {
+		if (direction != 2) {
+			direction = 2;
+			curFrame = 1;
+		}
+
+		if (++frameCount > frameDelay)
+		{
+			frameCount = 0;
+			if (++curFrame > 4)
+				curFrame = 1;
+		}
+
 		x -= speed;
 	}
 	//Movement Right
 	else if (dir == 3) {
+		if (direction != 3) {
+			direction = 3;
+			curFrame = 1;
+		}
+
+		if (++frameCount > frameDelay)
+		{
+			frameCount = 0;
+			if (++curFrame > 4)
+				curFrame = 1;
+		}
+
 		x += speed;
+	}
+	//If stopped
+	else {
+		//reset frameCount
+		frameCount = 0;
+		//set correct stopped frame
+		if (direction == 0) {
+			curFrame = 10;
+		}
+		else if (direction == 1) {
+			curFrame = 5;
+		}
+		else if (direction == 2 || direction == 3) {
+			curFrame = 0;
+		}
 	}
 
 }

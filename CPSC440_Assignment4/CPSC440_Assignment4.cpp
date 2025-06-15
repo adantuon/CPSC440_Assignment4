@@ -90,6 +90,9 @@ int main() {
 			else if (keys[RIGHT]) {
 				player.UpdateSprites(RIGHT);
 			}
+			else {
+				player.UpdateSprites(-1);
+			}
 		}
 		else if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
 			exit = true;
