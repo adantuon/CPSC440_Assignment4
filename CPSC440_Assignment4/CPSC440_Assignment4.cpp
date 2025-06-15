@@ -7,6 +7,7 @@
 #include <allegro5/allegro_ttf.h>
 #include "SpriteSheet.h"
 #include "mappy_A5.h"
+#include <stdio.h>
 
 int main() {
 	const int WIDTH = 900;
@@ -76,7 +77,19 @@ int main() {
 		al_wait_for_event(eventQueue, &event);
 
 		if (event.type == ALLEGRO_EVENT_TIMER) {
-
+			render = true;
+			if (keys[UP]) {
+				player.UpdateSprites(UP);
+			}
+			else if (keys[DOWN]) {
+				player.UpdateSprites(DOWN);
+			}
+			else if (keys[LEFT]) {
+				player.UpdateSprites(LEFT);
+			}
+			else if (keys[RIGHT]) {
+				player.UpdateSprites(RIGHT);
+			}
 		}
 		else if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
 			exit = true;
@@ -122,6 +135,26 @@ int main() {
 
 		if (render && al_is_event_queue_empty(eventQueue)) {
 			render = false;
+
+			xOff = player.getX() + player.getWidth() - WIDTH / 2;
+			yOff = player.getY() + player.getHeight() - HEIGHT / 2;
+
+			//avoid moving beyond the map edge
+			if (xOff < 0) xOff = 0;
+
+			if (xOff > (mapwidth * mapblockwidth - WIDTH))
+				xOff = mapwidth * mapblockwidth - WIDTH;
+			if (yOff < 0)
+				yOff = 0;
+			if (yOff > (mapheight * mapblockheight - HEIGHT))
+				yOff = mapheight * mapblockheight - HEIGHT;
+
+			MapDrawBG(xOff, yOff, 0, 0, WIDTH, HEIGHT);
+			MapDrawFG(xOff, yOff, 0, 0, WIDTH, HEIGHT, 0);
+			player.DrawSprites(xOff, yOff);
+
+			al_flip_display();
+			al_clear_to_color(al_map_rgb(0, 0, 0));
 		}
 	}
 

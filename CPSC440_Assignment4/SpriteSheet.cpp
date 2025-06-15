@@ -22,12 +22,33 @@ void Sprite::InitSprites() {
 	frameHeight = 48;
 	animationColumns = 5;
 	direction = 1;
+	speed = 3;
 
 	image = al_load_bitmap("SpriteSheet.png");
 	al_convert_mask_to_alpha(image, al_map_rgb(255, 0, 255));
 }
 
 void Sprite::UpdateSprites(int dir) {
+
+	int oldx = x;
+	int oldy = y;
+
+	//Movement Up
+	if (dir == 0) {
+		y -= speed;
+	}
+	//Movement Down
+	else if (dir == 1) {
+		y += speed;
+	}
+	//Movement Left
+	else if (dir == 2) {
+		x -= speed;
+	}
+	//Movement Right
+	else if (dir == 3) {
+		x += speed;
+	}
 
 }
 

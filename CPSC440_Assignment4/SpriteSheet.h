@@ -27,6 +27,7 @@ class Sprite {
 		int frameHeight;
 		int animationColumns;
 		int direction;
+		int speed;
 
 		ALLEGRO_BITMAP *image;
 };
